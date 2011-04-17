@@ -1,0 +1,9 @@
+<TwillioResponse>
+<Call>
+  <To><: to :></To>
+  <From><: from :></From>
+  <AccountSid>ACacb4ecc7916a22d1eaefcc880b616f02</AccountSid>
+  <ApiVersion>2010-04-01</ApiVersion>
+  <Uri><: uri :></Uri>
+</Call>
+</TwillioResponse>
