@@ -31,6 +31,7 @@ meryl.handle('GET /recievedcall', function(req,res){
     });
   });
 });
+
 function substitute(string,array,callback){
   var re = /<:\s(\w+)\s:>/g;
   var searchString = string;
