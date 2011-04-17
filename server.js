@@ -3,19 +3,14 @@
 var http = require('http');
 var meryl = require('meryl');
 var fs = require('fs');
+var https = require('https');
 
 meryl.handle('GET /',function(req,res){
-console.log(req.params);
-  fs.readFile('./page.html',encoding='utf8',function(err,data){
+  fs.readFile('./index.html',encoding='utf8',function(err,data){
     if(err) console.loge(err);
-    console.log(data);    
-var node = {from:req.params.FromCity,
-body:'<Say voice="woman" loop="2">Hello, and welcome to the internet</Say>'}
-    substitute(data,node,function(html){
-      res.setHeader('Content-Type','text/xml');
-      res.end(html);  
-      console.log(html);
-    });
+      res.setHeader('Content-Type','text/html');
+      res.end(data);  
+      console.log(data);
   });
 });
 meryl.handle('GET /recievedcall', function(req,res){
@@ -31,6 +26,27 @@ meryl.handle('GET /recievedcall', function(req,res){
     });
   });
 });
+meryl.handle('POST /makecall',function(req,res){
+  console.log(req.params);
+  var options = {
+    host: 'api.twillio.com',
+    port: 80,
+    path: '/2010-04-01/Accounts/ACacb4ecc7916a22d1eaefcc880b616f02/CallsFrom='+ req.params.from+ '&TO=' + req.params.to + '&Url=http://ec2-50-16-59-162.compute-1.amazonaws.com/recievedcall',
+    method: 'POST'
+  }
+  var request = https.request(options, function(res){
+    console.log('statusCode: ',res.statusCode);
+    console.log('headers: ',res.headers);
+    res.on('data',function(data){
+      console.log(data);
+    });
+  });  
+  request.end();
+  request.on('error', function(err){
+    console.log(err);
+  });
+});
+
 
 function substitute(string,array,callback){
   var re = /<:\s(\w+)\s:>/g;
