@@ -4,11 +4,13 @@ var http = require('http'),
     https = require('https'),
     fs = require('fs'),
     formidable = require('formidable'),
+    url = require('url'),
     server;
 
 server = http.createServer(function(req, res) {
-  console.log(req);
-  if (req.url == '/') {
+  var url_parts = url.parse(req.url);
+  console.log(url_parts);
+  if (url_parts.pathname == '/') {
     res.writeHead(200, {'content-type': 'text/html'});
     res.end(
       '<form action="/post" method="post">'+
@@ -17,7 +19,7 @@ server = http.createServer(function(req, res) {
       '<input type="submit" value="Submit">'+
       '</form>'
     );
-  } else if (req.url == '/post') {
+  } else if (url_parts.pathname == '/post') {
     var form = new formidable.IncomingForm(),
         fields = [];
 
@@ -54,7 +56,7 @@ server = http.createServer(function(req, res) {
           }); 
       });
     form.parse(req);
-  } else if (req.url == '/recievedcall') {
+  } else if (url_parts.pathname == '/recievedcall') {
     console.log(req);
     fs.readFile('./recieveform.xml',encoding='utf8',function(err,data){
       if(err) console.log(err);
@@ -67,7 +69,7 @@ server = http.createServer(function(req, res) {
         console.log(html);
       });
     });
-  } else if (req.url == '/index') {
+  } else if (url_parts.pathname == '/index') {
     fs.readFile('./index.xml',encoding='utf8',function(err,data){
       if(err != null) console.log(err);
       console.log(data);
