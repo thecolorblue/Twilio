@@ -7,6 +7,7 @@ var http = require('http'),
     server;
 
 server = http.createServer(function(req, res) {
+  console.log(req);
   if (req.url == '/') {
     res.writeHead(200, {'content-type': 'text/html'});
     res.end(
@@ -68,7 +69,7 @@ server = http.createServer(function(req, res) {
     });
   } else if (req.url == '/index') {
     fs.readFile('./index.xml',encoding='utf8',function(err,data){
-      if(err) console.log(err);
+      if(err != null) console.log(err);
       console.log(data);
       var resarray = {};
       resarray.cityfrom = '';
