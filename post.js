@@ -66,6 +66,18 @@ server = http.createServer(function(req, res) {
         console.log(html);
       });
     });
+  } else if (req.url == '/index') {
+    fs.readFile('./index.xml',encoding='utf8',function(err,data){
+      if(err) console.log(err);
+      console.log(data);
+      var resarray = {};
+      resarray.cityfrom = '';
+      substitute(data,resarray,function(html){
+        res.setHeader('Content-Type','text/xml');
+        res.end(html);
+        console.log(html);
+      });
+    });
   } else {
     res.writeHead(404, {'content-type': 'text/plain'});
     res.end('404');
