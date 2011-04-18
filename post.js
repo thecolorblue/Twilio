@@ -1,6 +1,5 @@
 require('./test/common');
 var http = require('http'),
-    meryl = require('meryl'),
     util = require('util'),
     https = require('https'),
     fs = require('fs'),
@@ -47,7 +46,11 @@ server = http.createServer(function(req, res) {
             response.on('data',function(data){
               process.stdout.write(data);
             });
-          });  
+          }); 
+          request.end();
+          request.on('error', function(err){
+            console.log(err);
+          }); 
       });
     form.parse(req);
   } else if (req.url == '/recievedcall') {
@@ -68,11 +71,7 @@ server = http.createServer(function(req, res) {
     res.end('404');
   }
 });
-/*
-meryl.handle('GET /recievedcall', function(req,res){
 
-});
-*/
 function substitute(string,array,callback){
   var re = /<:\s(\w+)\s:>/g;
   var searchString = string;
@@ -86,6 +85,5 @@ function substitute(string,array,callback){
   }
   callback(searchString);
 };
-// meryl.run({debug:true, port: 13532});
 server.listen(TEST_PORT);
 util.puts('listening on http://localhost:'+TEST_PORT+'/');
