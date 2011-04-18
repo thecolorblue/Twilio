@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Response>
-  <Say>Thank you for calling,<: cityfrom :>,<: statefrom :></Say>
+  <Say voice="woman">Hello, and welcome to open mike night at the Artemis. First up is <: account :></Say>
+  <Pause length='3'/>
+  <Say>Thank you. Thank you. This is a great looking crowd. I just flew in from,<: cityfrom :>,<: statefrom :>, and boy are my arms tired.</Say>
+  <Pause length="5"/>
+  <Say loop="2">Tough crowd.</Say>
+  
 </Response>

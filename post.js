@@ -79,15 +79,16 @@ server = http.createServer(function(req, res) {
   } else if (url_parts.pathname == '/index') {
     fs.readFile('./index.xml',encoding='utf8',function(err,data){
       if(err != null) console.log(err);
-      console.log(query);
       var resarray = {};
       resarray.cityfrom = query.FromCity;
       resarray.statefrom = states[query.CallerState];
+      resarray.account = abrev(query.AccountSid);
       substitute(data,resarray,function(html){
         res.setHeader('Content-Type','text/xml');
         res.end(html);
         console.log(html);
       });
+      console.log(resarray);
     });
   } else {
     res.writeHead(404, {'content-type': 'text/plain'});
@@ -95,6 +96,12 @@ server = http.createServer(function(req, res) {
   }
 });
 
+function abrev(string){
+  var pre = string + '';
+  var re = /^(\w{9})/;
+  var result = re.exec(pre);
+  return result[1];
+};
 function substitute(string,array,callback){
   var re = /<:\s(\w+)\s:>/g;
   var searchString = string;
