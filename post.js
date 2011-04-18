@@ -17,7 +17,9 @@ KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachuse
 server = http.createServer(function(req, res) {
   var url_parts = url.parse(req.url);
   var query = qs.parse(url_parts.query);
-  if (url_parts.pathname == '/') {
+  if (url_parts.pathname == '/favicon.ico') {
+    res.writeHead(200, {'content-type': 'text/html'});
+  } else if (url_parts.pathname == '/') {
     res.writeHead(200, {'content-type': 'text/html'});
     res.end(
       '<form action="/post" method="post">'+
