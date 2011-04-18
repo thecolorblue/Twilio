@@ -99,8 +99,10 @@ server = http.createServer(function(req, res) {
 function abrev(string){
   var pre = string + '';
   var re = /^(\w{9})/;
-  var result = re.exec(pre);
-  return result[1];
+  var retwo = /^(\w)(\w)(\w)(\w)(\w)(\w)(\w)(\w)(\w)$/
+  var secondstep = re.exec(pre);
+  var result = secondstep[1].replace(retwo, "$1,$2,$3,$4,$5,$6,$7,$8,$9");
+  return result;
 };
 function substitute(string,array,callback){
   var re = /<:\s(\w+)\s:>/g;
