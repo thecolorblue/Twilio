@@ -5,11 +5,12 @@ var http = require('http'),
     fs = require('fs'),
     formidable = require('formidable'),
     url = require('url'),
+    qs = require('querystring'),
     server;
 
 server = http.createServer(function(req, res) {
   var url_parts = url.parse(req.url);
-  console.log(url_parts);
+  var query = qs.parse(url_parts.query);
   if (url_parts.pathname == '/') {
     res.writeHead(200, {'content-type': 'text/html'});
     res.end(
@@ -72,7 +73,7 @@ server = http.createServer(function(req, res) {
   } else if (url_parts.pathname == '/index') {
     fs.readFile('./index.xml',encoding='utf8',function(err,data){
       if(err != null) console.log(err);
-      console.log(data);
+      console.log(query);
       var resarray = {};
       resarray.cityfrom = '';
       substitute(data,resarray,function(html){
