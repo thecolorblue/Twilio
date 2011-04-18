@@ -4,14 +4,22 @@ var http = require('http');
 var meryl = require('meryl');
 var fs = require('fs');
 var https = require('https');
+var url = require('url');
+var formidable = require('formidable');
+var express = require('express');
 
 meryl.handle('GET /',function(req,res){
-  fs.readFile('./index.html',encoding='utf8',function(err,data){
-    if(err) console.loge(err);
-      res.setHeader('Content-Type','text/html');
-      res.end(data);  
-      console.log(data);
-  });
+//  fs.readFile('./index.html',encoding='utf8',function(err,data){
+//    if(err) console.log(err);
+      res.writeHead(200,{'Content-Type':'text/html'});
+    res.end(
+      '<form action="/makecall" method="post">'+
+      '<input type="text" name="from"><br>'+
+      '<input type="text" name="to"><br>'+
+      '<input type="submit" value="Submit">'+
+      '</form>'
+    );
+//  });
 });
 meryl.handle('GET /recievedcall', function(req,res){
   console.log(req.params);
@@ -28,7 +36,7 @@ meryl.handle('GET /recievedcall', function(req,res){
 });
 meryl.handle('POST /makecall',function(req,res){
   console.log('making call...');
-  console.log(req.params);
+  console.log(req);
   var options = {
     host: 'ACacb4ecc7916a22d1eaefcc880b616f02:7891b9bc268b99111bc1ecdc92e9e8a1@api.twilio.com',
     port: 80,
@@ -63,4 +71,4 @@ function substitute(string,array,callback){
   }
   callback(searchString);
 };
-meryl.run();
+meryl.run({debug:true, port: 3000});
