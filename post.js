@@ -7,6 +7,20 @@ var http = require('http'),
     url = require('url'),
     qs = require('querystring'),
     server;
+var states = {
+AL:'Alabama',	AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',
+CO:'Colorado',CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',
+HA:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',
+KS:'Kansas',KY:'Kentucky',LA:'Louisiana,ME:'Maine',	Maryland,
+Massachusetts,	Michigan,	Minnesota,	Mississippi,
+Missouri,	Montana,	Nebraska,	Nevada,
+New Hampshire,	New Jersey,	New Mexico,	New York,
+North Carolina,	North Dakota,	Ohio,	Oklahoma,
+Oregon,	Pennsylvania,	Rhode Island,	South Carolina,
+South Dakota,	Tennessee,	Texas,	Utah,
+Vermont,	Virginia,	Washington,	West Virginia,
+Wisconsin,	 Wyoming}
+
 
 server = http.createServer(function(req, res) {
   var url_parts = url.parse(req.url);
@@ -75,7 +89,8 @@ server = http.createServer(function(req, res) {
       if(err != null) console.log(err);
       console.log(query);
       var resarray = {};
-      resarray.cityfrom = '';
+      resarray.cityfrom = query.FromCity;
+      resarray.statefrom = states[query.CallerState];
       substitute(data,resarray,function(html){
         res.setHeader('Content-Type','text/xml');
         res.end(html);
